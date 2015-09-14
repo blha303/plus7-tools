@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-import requests,bs4,sys
+import urllib2,bs4,sys
 slug = sys.argv[1] if len(sys.argv) > 1 else "harrys-practice"
 
 def add_urls(soup, urls):
@@ -9,19 +9,19 @@ def add_urls(soup, urls):
     return urls, len(urls) - oldlen
 
 def main():
-    soup = bs4.BeautifulSoup(requests.get("https://au.tv.yahoo.com/plus7/{}/".format(slug)).text, "html.parser")
+    soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com/plus7/{}/".format(slug)).read(), "html.parser")
     urls = []
     #1
     urls, count = add_urls(soup, urls)
     if count == 0:
         return urls
     #2
-    soup = bs4.BeautifulSoup(requests.get("https://au.tv.yahoo.com" + soup.find('a', {'class': 'paginate'})["data-url"]).text, "html.parser")
+    soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com" + soup.find('a', {'class': 'paginate'})["data-url"]).read(), "html.parser")
     urls, count = add_urls(soup, urls)
     if count == 0:
         return urls
     while count != 0:
-        soup = bs4.BeautifulSoup(requests.get("https://au.tv.yahoo.com" + soup.find('a', {'class': 'load-location'})["data-next-url"]).text, "html.parser")
+        soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com" + soup.find('a', {'class': 'load-location'})["data-next-url"]).read(), "html.parser")
         urls, count = add_urls(soup, urls)
     return urls
 
