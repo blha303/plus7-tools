@@ -13,3 +13,14 @@ Install ffmpeg, python 2.7 and pip from your package repository. If on Ubuntu 14
 * `git submodule update --init`
 * `pip install -r requirements.txt`
 * `./get-all-eps.sh <slug>`, with slug being the bit from the show url after /plus7/. For example, the slug for Harry's Practice is harrys-practice.
+
+Using get-one-ep.sh
+-----
+
+Install ffmpeg, python 2.7 and pip from your package repository. If on Ubuntu 14.10 or earlier, do not install ffmpeg from the package repository, follow these instructions instead: [trac.ffmpeg.org](https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu)
+
+* `git clone https://github.com/blha303/plus7-tools`
+* `cd plus7-tools`
+* `git submodule update --init`
+* `pip install -r requirements.txt`
+* `./get-all-eps.sh <url>`, with url being the page for the episode you want to watch
