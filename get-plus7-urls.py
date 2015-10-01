@@ -13,16 +13,18 @@ def main():
     urls = []
     #1
     urls, count = add_urls(soup, urls)
-    if count == 0:
-        return urls
+# commented for now. Maybe there's episodes on the second page that got pushed off by extras. e.g 800 words as i type this
+#    if count == 0:
+#        return urls
     #2
-    soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com" + soup.find('a', {'class': 'paginate'})["data-url"]).read(), "html.parser")
-    urls, count = add_urls(soup, urls)
-    if count == 0:
-        return urls
-    while count != 0:
-        soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com" + soup.find('a', {'class': 'load-location'})["data-next-url"]).read(), "html.parser")
+    if soup.find('a', {'class': 'paginate'}):
+        soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com" + soup.find('a', {'class': 'paginate'})["data-url"]).read(), "html.parser")
         urls, count = add_urls(soup, urls)
+        if count == 0:
+            return urls
+        while count != 0:
+            soup = bs4.BeautifulSoup(urllib2.urlopen("https://au.tv.yahoo.com" + soup.find('a', {'class': 'load-location'})["data-next-url"]).read(), "html.parser")
+            urls, count = add_urls(soup, urls)
     return urls
 
 print "\n".join(main())
